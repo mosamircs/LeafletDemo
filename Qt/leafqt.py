@@ -6,7 +6,6 @@ import socket
 
 class MapWindow(QWidget):
     def __init__(self, planes):
-        # Setting up the widgets and layout
         super().__init__()
         self.mapWidget = MapWidget()
         self.layout = QVBoxLayout()
