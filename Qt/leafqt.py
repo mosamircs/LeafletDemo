@@ -4,7 +4,7 @@ from pyqtlet import L, MapWidget
 
 
 class MapWindow(QWidget):
-    def __init__(self):
+    def __init__(self, lat = 26.8206, lon = 30.8025, zoom = 6):
         # Setting up the widgets and layout
         super().__init__()
         self.mapWidget = MapWidget()
@@ -12,9 +12,7 @@ class MapWindow(QWidget):
         self.layout.addWidget(self.mapWidget)
         self.setLayout(self.layout)
 
-        lat = 26.8206
-        lon = 30.8025
-        zoom = 6
+        
 
         # Working with the maps with pyqtlet
         self.map = L.map(self.mapWidget)
@@ -32,7 +30,26 @@ class MapWindow(QWidget):
         # L.control.scale().addTo(self.map);
         self.show()
 
+
+import socket               # Import socket module
+
+
+
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    widget = MapWindow()
-    sys.exit(app.exec_())
+	s = socket.socket()         # Create a socket object
+	host = socket.gethostname() # Get local machine name
+	port = 12345                # Reserve a port for your service.
+
+	s.connect((host, port))
+	count = s.recv(1024)
+	print(int(count))
+	data = []
+	for _ in range(0, int(count), 1):
+		data.append(s.recv(8))
+	print(data[0])
+	print(data[1])
+	s.close()
+
+	app = QApplication(sys.argv)
+	widget = MapWindow()
+	sys.exit(app.exec_())

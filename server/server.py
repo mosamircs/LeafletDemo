@@ -1,14 +1,23 @@
-import socket               # Import socket module
+import socket               
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = socket.gethostname() # Get local machine name
-port = 12345                # Reserve a port for your service.
-s.bind((host, port))        # Bind to the port
-print(host)
-s.listen(5)                 # Now wait for client connection.
+host = socket.gethostname() 
+port = 12345                
+s.bind((host, port))        
+s.listen(5)                 
+
+import random
+import struct
+
+
 while True :
-    c, addr = s.accept()     # Establish connection with client.
-    print (addr)
-    msg = "Thank you for your connection"
-    c.send(msg.encode('utf-8'))
-    c.close()                # Close the connection
+    c, addr = s.accept()     
+    print(addr)
+    # floatlist = [26.80222, 30.8888]
+    # msg = struct.pack('%sf' % len(floatlist), *floatlist)
+
+    msg = ["26.80222", "30.8888"]
+    c.send(bytes(str(len(msg)), 'utf-8'))
+    for each in msg:
+    	c.send(bytes(each, 'utf-8'))
+    c.close()                
