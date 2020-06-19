@@ -23,10 +23,24 @@
 
 <script type="text/javascript">
 
-  var socket = io('http://localhost:12345');
-  socket.on('connect', function (data) {
-    console.log(data);
-  });
+  paths = [
+          // First Path
+          [[26.8206, 30.8025],
+          [27.8206, 31.8025],
+          [28.8206, 32.8025],],
+          // Second Path
+          [[24.8206, 30.8025],
+          [26.2206, 31.8025],
+          [27.8206, 32.8025],],
+          // Third Path
+          [[25.8206, 29.8025],
+          [26.8206, 29.8925],
+          [27.8206, 30.9025],]
+]
+  // var socket = io('http://localhost:12345');
+  // socket.on('connect', function (data) {
+  //   console.log(data);
+  // });
 
   var map = L.map('mapid').setView([26.8206, 30.8025], 6);
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWhtZWRuYWRlcjQyIiwiYSI6ImNrYmwwcndtcDAwM2oydXFsazhxbXdnMmIifQ.IkP0ULaBd1JHMoMuKBbihA', {
@@ -40,26 +54,24 @@
 
 L.control.scale().addTo(map);
 
-var myIcon = L.icon({
-  iconUrl: 'images/airplane.png',
-  iconSize: [10, 10],
-  iconAnchor: [22, 94],
-  popupAnchor: [-3, -76],
-});
+// var myIcon = L.icon({
+//   iconUrl: 'images/airplane.png',
+//   iconSize: [10, 10],
+//   iconAnchor: [22, 94],
+//   popupAnchor: [-3, -76],
+// });
 
 // var marker = L.marker([26.8206, 30.8025], {icon: myIcon});
-markerLat = 26.8206;
-markerLon = 30.8025;
-var marker = L.marker([markerLat, markerLon]);
 
-marker.bindPopup(`Lat : ${markerLat.toPrecision(6)}, Lon : ${markerLon.toPrecision(6)}`).openPopup();
+for (path of paths) {
+  markerLat = path[0][0];
+  markerLon = path[0][1];
+  var marker = L.marker([markerLat, markerLon]);
 
-marker.addTo(map);
+  marker.bindPopup(`Lat : ${markerLat.toPrecision(6)}, Lon : ${markerLon.toPrecision(6)}`).openPopup();
+  marker.addTo(map);
 
-var latlngs = [
-    [26.8206, 30.8025],
-    [27.8206, 31.8025],
-    [28.8206, 32.8025],
-];
-var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+  var latlngs = path
+  var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+}
 </script>
